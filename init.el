@@ -16,16 +16,6 @@
 (unless (package-installed-p 'ag)
   (package-install 'ag))
 
-;; Ido
-;;(require 'ido)
-;;(setq ido-enable-flex-matching t)
-;;(setq ido-everywhere t)
-;;(ido-mode 1)
-
-;;(unless (package-installed-p 'ido-completing-read+)
-  ;;(package-install 'ido-completing-read+))
-;;(ido-ubiquitous-mode 1)
-
 ;; Ivy (and Counsel and Swiper)
 (unless (package-installed-p 'counsel)
   (package-install 'counsel))
@@ -33,12 +23,6 @@
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "")
-
-;;(unless (package-installed-p 'projectile)
-  ;;(package-install 'projectile))
-
-;;(setq projectile-completion-system 'ivy)
-;;(projectile-mode +1)
 
 ;; Evil
 (unless (package-installed-p 'evil)
