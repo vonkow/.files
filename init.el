@@ -1,75 +1,70 @@
+;; Packages
 (require 'package)
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 (package-refresh-contents)
+(add-to-list 'load-path "~/.emacs.d/local-packages/")
 
 ;; Custom
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-(add-to-list 'load-path "~/.emacs.d/local-packages/")
-
 ;; Markdown
-(unless (package-installed-p 'markdown-mode)
-  (package-install 'markdown-mode))
+(use-package markdown-mode)
 
 ;; Magit
-(unless (package-installed-p 'magit)
-  (package-install 'magit))
+(use-package magit)
 
 ;; Ag
-(unless (package-installed-p 'ag)
-  (package-install 'ag))
+(use-package ag)
 
 ;; Ivy (and Counsel and Swiper)
-(unless (package-installed-p 'counsel)
-  (package-install 'counsel))
-
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq ivy-count-format "")
+(use-package ivy
+  :ensure t
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format ""))
 
 ;; Evil
-(unless (package-installed-p 'evil)
-  (package-install 'evil))
+(use-package evil
+  :ensure t
+  :init
+  (setq evil-want-keybinding nil)
+  :config
+  (evil-mode 1))
 
-(setq evil-want-keybinding nil)
-(require 'evil)
-(evil-mode 1)
-
-;; Evil Collection (Magit, etc)
-(unless (package-installed-p 'evil-collection)
-  (package-install 'evil-collection))
-
-(when (require 'evil-collection nil t)
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
   (evil-collection-init))
 
 ;; Claude
 (use-package inheritenv
   :vc (:url "https://github.com/purcell/inheritenv" :rev :newest))
 
-(use-package eat :ensure t)
-;;(use-package vterm :ensure t)
+(use-package eat)
+;(use-package vterm :ensure t)
 
 (use-package monet
   :vc (:url "https://github.com/stevemolitor/monet" :rev :newest))
 
-(use-package claude-code ;ensure t
+(use-package claude-code
   :vc (:url "https://github.com/stevemolitor/claude-code.el" :rev :newest)
   :config
-  ;; optional IDE integration with Monet
-  (add-hook 'claude-code-process-environment-functions #'monet-start-server-function)
+  (add-hook
+   'claude-code-process-environment-functions #'monet-start-server-function)
   (monet-mode 1)
   (claude-code-mode)
-  :bind-keymap ("C-c c" . claude-code-command-map)
+  ;:bind-keymap ("C-c c" . claude-code-command-map)
   :bind (:repeat-map my-claude-code-map ("M" . claude-code-cycle-mode)))
 (require 'claude-code)
 
 ;; Evil leader stuff
 (evil-set-leader 'motion (kbd "SPC"))
 (evil-define-key 'normal 'global (kbd "<leader>SPC") 'counsel-M-x)
-;;(evil-define-key 'normal 'global (kbd "<leader>SPC") 'execute-extended-command)
 (evil-define-key 'normal 'global (kbd "<leader>bb") 'counsel-switch-buffer)
 (evil-define-key 'normal 'global (kbd "<leader>bn") 'next-buffer)
 (evil-define-key 'normal 'global (kbd "<leader>bp") 'previous-buffer)
@@ -97,5 +92,3 @@
 
 ;; Font Tweaks
 (set-frame-font "Andale Mono 15" nil t)
-
-
