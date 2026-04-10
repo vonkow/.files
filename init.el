@@ -41,12 +41,19 @@
   :config
   (evil-collection-init))
 
+(require 'org)
+(setq org-todo-keywords
+      '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+
+;(use-package evil-org
+  ;"TBD if a good idea or make your own"
+  ;...see-eg-version)
+
 ;; Claude
+(use-package vterm)
+
 (use-package inheritenv
   :vc (:url "https://github.com/purcell/inheritenv" :rev :newest))
-
-(use-package eat)
-;(use-package vterm :ensure t)
 
 (use-package monet
   :vc (:url "https://github.com/stevemolitor/monet" :rev :newest))
@@ -66,6 +73,7 @@
 (evil-set-leader 'motion (kbd "SPC"))
 (evil-define-key 'normal 'global (kbd "<leader>SPC") 'counsel-M-x)
 (evil-define-key 'normal 'global (kbd "<leader>bb") 'counsel-switch-buffer)
+(evil-define-key 'normal 'global (kbd "<leader>bl") 'list-buffers)
 (evil-define-key 'normal 'global (kbd "<leader>bn") 'next-buffer)
 (evil-define-key 'normal 'global (kbd "<leader>bp") 'previous-buffer)
 (evil-define-key 'normal 'global (kbd "<leader>c")  claude-code-command-map)
@@ -77,6 +85,11 @@
 (evil-define-key 'normal 'global (kbd "<leader>pf") 'project-find-file)
 (evil-define-key 'normal 'global (kbd "<leader>pp") 'project-switch-project)
 (evil-define-key 'normal 'global (kbd "<leader>ss") 'counsel-ag)
+
+; Javascript!
+(setq-default indent-tabs-mode nil)
+(setq custom-tab-width 2)
+(setq-default js-indent-level custom-tab-width)
 
 ;; File extension mapping
 (add-to-list 'auto-mode-alist '("\\.mjs\\'" . javascript-mode))
@@ -91,4 +104,23 @@
 (tronesque-mode-line)
 
 ;; Font Tweaks
-(set-frame-font "Andale Mono 15" nil t)
+(set-frame-font "Maple Mono 15" nil t)
+
+(use-package ligature
+  :config
+  (ligature-set-ligatures 't '("www"))
+  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+  (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                       ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                       "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                       "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                       "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                       "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                       "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                       "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                       ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                       "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                       "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                       "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                       "\\\\" "://"))
+  (global-ligature-mode t))

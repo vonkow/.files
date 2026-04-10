@@ -6,7 +6,9 @@
  '(custom-safe-themes
    '("aae95bbe93015b723d94b7081fdb27610d393c2156e2cda2e43a1ea7624c9e6f"
      default))
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(ag claude-code counsel eat evil-collection ido-completing-read+
+        ligature magit markdown-mode monet projectile vterm))
  '(package-vc-selected-packages
    '((claude-code :url "https://github.com/stevemolitor/claude-code.el")
      (monet :url "https://github.com/stevemolitor/monet"))))
