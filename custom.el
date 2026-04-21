@@ -40,7 +40,7 @@
  '(package-selected-packages
    '(ag base16-theme claude-code counsel eat evil-collection
         ido-completing-read+ ligature magit markdown-mode monet
-        projectile vterm))
+        ox-hugo projectile vterm))
  '(package-vc-selected-packages
    '((claude-code :url "https://github.com/stevemolitor/claude-code.el")
      (monet :url "https://github.com/stevemolitor/monet"))))

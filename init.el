@@ -56,7 +56,12 @@
       '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
 (setq org-default-notes-file "~/Code/todos.org")
 (setq org-capture-templates
-      '(("g" "General" entry (file+headline "~/Code/todos.org" "General")
+      '(("b" "Blog Post" entry (file "~/Code/blog.org")
+         "* DRAFT %i %?\n:PROPERTIES:\n ::EXPORT_FILE_NAME: index\n :TITLE: \n EXPORT_HUGO_DRAFT: true\n :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :subtitle \n :EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :summary \n:END:\n\n"
+         :prepend t
+         :empty-lines 1
+         :jump-to-captured t)
+        ("t" "Todo" entry (file+headline "~/Code/todos.org" "General")
          "** TODO %?\n%U\n")
         ("p" "Project" entry (file+function "~/Code/todos.org" org-capture-select-project)
          "*** TODO %?\n%U\n")
@@ -94,6 +99,16 @@
                 (lambda ()
                   (org-agenda-skip-entry-if 'scheduled 'deadline)))
                (org-agenda-overriding-header "Unscheduled TODO entries:")))))))))
+
+;; Org Blogging stuff
+(add-to-list 'org-todo-keywords '(sequence "DRAFT(d)" "POST(p)" "|" "PUBLISH(B)"))
+
+(use-package ox-hugo
+  :ensure t
+  :pin melpa
+  :after ox
+  :config
+  (setq org-hugo-base-dir "~/Code/blog/"))
 
 ;(use-package evil-org
   ;"TBD if a good idea or make your own"
@@ -137,7 +152,8 @@
   (kbd "<leader>pb") 'project-switch-to-buffer
   (kbd "<leader>pf") 'project-find-file
   (kbd "<leader>pp") 'project-switch-project
-  (kbd "<leader>ss") 'counsel-ag)
+  (kbd "<leader>ss") 'counsel-ag
+  (kbd "<leader>tt") 'vterm)
 
 ;; Org-mode evil keybindings
 (with-eval-after-load 'org
@@ -150,14 +166,25 @@
     ">" 'org-shiftmetaright          ; Promote heading (** → ***)
     "<" 'org-shiftmetaleft))
 
+(setq-default tab-width 2)
+
 ; Javascript!
 (setq-default indent-tabs-mode nil)
 (setq custom-tab-width 2)
 (setq-default js-indent-level custom-tab-width)
 
+;; CSS
+(setq-default css-indent-offset 2)
+
 ;; File extension mapping
 (add-to-list 'auto-mode-alist '("\\.mjs\\'" . javascript-mode))
 (add-to-list 'auto-mode-alist '("\\.hbs\\'" . html-mode))
+
+;; Wrap text everywhere
+(global-visual-line-mode t)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
 
 ;; Splash
 (require 'splash-screen)
