@@ -43,14 +43,15 @@
   :config
   (evil-collection-init))
 
-;; Org-agenda evil keybindings
-(with-eval-after-load 'org-agenda
-  (evil-define-key 'motion org-agenda-mode-map
-    ",d" 'org-agenda-deadline
-    ",s" 'org-agenda-schedule
-    ",p" 'org-agenda-priority))
-
 (require 'org)
+
+(add-hook 'org-capture-mode-hook
+          (lambda ()
+            (evil-define-key 'normal 'local
+              (kbd ",,") 'org-capture-finalize
+              (kbd ",c") 'org-capture-finalize
+              (kbd ",k") 'org-capture-kill
+              (kbd ",r") 'org-capture-refile)))
 
 (setq org-todo-keywords
       '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
@@ -61,14 +62,22 @@
          :prepend t
          :empty-lines 1
          :jump-to-captured t)
-        ("t" "Todo" entry (file+headline "~/Code/todos.org" "General")
-         "** TODO %?\n%U\n")
-        ("p" "Project" entry (file+function "~/Code/todos.org" org-capture-select-project)
+        ("t" "Todo" entry (file+headline "~/Code/todos.org" "TODOs")
          "*** TODO %?\n%U\n")
         ("l" "Long Term" entry (file+headline "~/Code/todos.org" "Long Term")
-         "** TODO %?\n%U\n")
+         "*** TODO %?\n%U\n")
+        ("p" "Project" entry (file+function "~/Code/todos.org" org-capture-select-project)
+         "*** TODO %?\n%U\n")
         ("n" "Note" entry (file+olp+datetree "~/Code/notes.org")
          "**** %?\n")))
+
+;; Org-agenda evil keybindings
+(with-eval-after-load 'org-agenda
+  (evil-define-key 'motion org-agenda-mode-map
+    ",d" 'org-agenda-deadline
+    ",s" 'org-agenda-schedule
+    ",p" 'org-agenda-priority))
+
 (custom-set-variables
  '(org-agenda-files (quote ("~/Code/todos.org")))
  '(org-default-notes-file "~/Code/todos.org")
@@ -163,6 +172,7 @@
     ",d" 'org-deadline              ; Set deadline
     ",s" 'org-schedule              ; Schedule item
     ",p" 'org-priority              ; Set priority
+    ",z" 'org-archive-subtree
     ">" 'org-shiftmetaright          ; Promote heading (** → ***)
     "<" 'org-shiftmetaleft))
 
@@ -204,14 +214,14 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 
 (let* ((themes
-        '(base16-nebula
-          base16-material-palenight
+        '(;base16-nebula
+          ;base16-material-palenight
           base16-katy
           base16-eldritch
-          base16-deep-oceanic-next
-          base16-eris
-          base16-moonlight
-          base16-catppuccin-mocha
+          ;maybe base16-deep-oceanic-next
+          ;base16-eris
+          ; maybe base16-moonlight
+          ; maybe base16-catppuccin-mocha
           tronesque
           weyland-yutani))
        (theme (random-element themes)))
