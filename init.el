@@ -143,26 +143,38 @@
   :bind (:repeat-map my-claude-code-map ("M" . claude-code-cycle-mode)))
 (require 'claude-code)
 
+;; Keybindings
+(which-key-mode)
+
 ;; Evil leader stuff
 (evil-set-leader 'motion (kbd "SPC"))
 (evil-define-key 'normal 'global
   (kbd "<leader>SPC") 'counsel-M-x
-  (kbd "<leader>bb") 'counsel-switch-buffer
-  (kbd "<leader>bl") 'list-buffers
-  (kbd "<leader>bn") 'next-buffer
-  (kbd "<leader>bp") 'previous-buffer
+  (kbd "<leader>b") (define-keymap
+                      "b" #'counsel-switch-buffer
+                      "l" #'list-buffers
+                      "n" #'next-buffer
+                      "p" #'previous-buffer)
   (kbd "<leader>c")  claude-code-command-map
-  (kbd "<leader>dd") 'counsel-dired
-  (kbd "<leader>ff") 'counsel-find-file
-  (kbd "<leader>g")  'magit
-  (kbd "<leader>ll") 'eval-last-sexp
-  (kbd "<leader>oa") 'org-agenda
-  (kbd "<leader>oc") 'org-capture
-  (kbd "<leader>pb") 'project-switch-to-buffer
-  (kbd "<leader>pf") 'project-find-file
-  (kbd "<leader>pp") 'project-switch-project
-  (kbd "<leader>ss") 'counsel-ag
-  (kbd "<leader>tt") 'vterm)
+  (kbd "<leader>d") (define-keymap
+                      "d" #'counsel-dired)
+  (kbd "<leader>f") (define-keymap
+                      "f" #'counsel-find-file)
+  (kbd "<leader>g") 'magit
+  (kbd "<leader>h") help-map
+  (kbd "<leader>l") (define-keymap
+                      "l" #'eval-last-sexp)
+  (kbd "<leader>o") (define-keymap
+                      "a" #'org-agenda
+                      "c" #'org-capture)
+  (kbd "<leader>p") (define-keymap
+                      "b" #'project-switch-to-buffer
+                      "f" #'project-find-file
+                      "p" #'project-switch-project)
+  (kbd "<leader>s") (define-keymap
+                      "s" #'counsel-ag)
+  (kbd "<leader>t") (define-keymap
+                      "t" 'vterm))
 
 ;; Org-mode evil keybindings
 (with-eval-after-load 'org
