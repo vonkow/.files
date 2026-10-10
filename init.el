@@ -225,7 +225,11 @@
         ;(tronesque-mode-line))))
 
 ;; Font Tweaks
-(set-frame-font "Maple Mono NF 12" nil t)
+(cond
+ ((find-font (font-spec :name "Maple Mono"))
+  (set-frame-font "Maple Mono 14" nil t))
+ ((find-font (font-spec :name "Maple Mono NF"))
+  (set-frame-font "Maple Mono NF 12" nil t)))
 
 (use-package ligature
   :ensure t
