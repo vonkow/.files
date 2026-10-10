@@ -13,13 +13,16 @@
 (require 'helpers)
 
 ;; Markdown
-(use-package markdown-mode)
+(use-package markdown-mode
+  :ensure t)
 
 ;; Magit
-(use-package magit)
+(use-package magit
+  :ensure t)
 
 ;; Ag
-(use-package ag)
+(use-package ag
+  :ensure t)
 
 ;; Ivy (and Counsel and Swiper)
 (use-package ivy
@@ -123,26 +126,6 @@
   ;"TBD if a good idea or make your own"
   ;...see-eg-version)
 
-;; Claude
-(use-package vterm)
-
-(use-package inheritenv
-  :vc (:url "https://github.com/purcell/inheritenv" :rev :newest))
-
-(use-package monet
-  :vc (:url "https://github.com/stevemolitor/monet" :rev :newest))
-
-(use-package claude-code
-  :vc (:url "https://github.com/stevemolitor/claude-code.el" :rev :newest)
-  :config
-  (setq claude-code-terminal-backend 'vterm)
-  (add-hook
-   'claude-code-process-environment-functions #'monet-start-server-function)
-  (monet-mode 1)
-  (claude-code-mode)
-  :bind (:repeat-map my-claude-code-map ("M" . claude-code-cycle-mode)))
-(require 'claude-code)
-
 ;; Keybindings
 (which-key-mode)
 
@@ -155,7 +138,6 @@
                       "l" #'list-buffers
                       "n" #'next-buffer
                       "p" #'previous-buffer)
-  (kbd "<leader>c")  claude-code-command-map
   (kbd "<leader>d") (define-keymap
                       "d" #'counsel-dired)
   (kbd "<leader>f") (define-keymap
@@ -209,7 +191,7 @@
 (menu-bar-mode -1)
 
 ;; Splash
-(require 'splash-screen)
+;;(require 'splash-screen)
 
 ;; Set width based on screen size, full height, and center
 (let ((emacs-width
@@ -228,23 +210,25 @@
 (let* ((themes
         '(;base16-nebula
           ;base16-material-palenight
-          base16-katy
-          base16-eldritch
-          ;maybe base16-deep-oceanic-next
-          ;base16-eris
-          ; maybe base16-moonlight
+          ;base16-katy
+          ;base16-eldritch
+          base16-deep-oceanic-next
+          base16-eris
+          base16-moonlight
           ; maybe base16-catppuccin-mocha
-          tronesque
-          weyland-yutani))
+          ;tronesque
+          ;weyland-yutani
+          ))
        (theme (random-element themes)))
   (progn (load-theme theme t)))
     ;(if (eq theme 'tronesque)
         ;(tronesque-mode-line))))
 
 ;; Font Tweaks
-(set-frame-font "Maple Mono 15" nil t)
+(set-frame-font "Maple Mono NF 12" nil t)
 
 (use-package ligature
+  :ensure t
   :config
   (ligature-set-ligatures 't '("www"))
   (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
@@ -264,3 +248,4 @@
      "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
      "\\\\" "://"))
   (global-ligature-mode t))
+
